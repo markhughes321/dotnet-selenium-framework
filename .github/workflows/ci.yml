@@ -25,5 +25,10 @@ jobs:
       - name: Build
         run: dotnet build UITests/UITests.csproj --configuration Release
 
+      - name: Set environment variables from secrets
+        run: |
+          echo "RYANAIR_EMAIL=${{ secrets.RYANAIR_EMAIL }}" >> $GITHUB_ENV
+          echo "RYANAIR_PASSWORD=${{ secrets.RYANAIR_PASSWORD }}" >> $GITHUB_ENV
+
       - name: Run tests
         run: dotnet test UITests/UITests.csproj --no-build --configuration Release --verbosity normal
