@@ -10,15 +10,15 @@ namespace UITests.Drivers
         public static IWebDriver Create()
         {
             var options = new ChromeOptions();
+            options.AddArgument("--headless=new");
+            options.AddArgument("--window-size=1920,1080");
             options.AddArgument("--disable-gpu");
             options.AddArgument("--no-sandbox");
+            options.AddArgument("--disable-dev-shm-usage");
 
-            // Use a unique user data dir for each parallel run
-            var tempDir = Path.Combine(Path.GetTempPath(), "selenium", Guid.NewGuid().ToString());
-            Directory.CreateDirectory(tempDir);
-            options.AddArgument($"--user-data-dir={tempDir}");
-            options.AddArgument("--headless=new");
-
+            var tempUserDataDir = Path.Combine(Path.GetTempPath(), "selenium", Guid.NewGuid().ToString());
+            Directory.CreateDirectory(tempUserDataDir);
+            options.AddArgument($"--user-data-dir={tempUserDataDir}");
 
             return new ChromeDriver(options);
         }
