@@ -3,6 +3,7 @@ using OpenQA.Selenium.Support.UI;
 using UITests.Drivers;
 using UITests.Helpers;
 using UITests.Pages;
+using NUnit.Framework;
 
 namespace UITests.Tests
 {
