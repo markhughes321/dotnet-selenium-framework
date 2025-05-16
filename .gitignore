@@ -1,0 +1,55 @@
+# .NET build artifacts
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code settings
+.vscode/
+
+# Rider settings
+.idea/
+
+# Logs
+*.log
+
+# Test results
+TestResults/
+*.trx
+
+# Environment variables
+.env
+
+# Coverage reports
+coverage/
+coverage.cobertura.xml
+coverage.opencover.xml
+lcov.info
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# JetBrains Rider
+.idea/
+
+# VS for Mac
+*.userprefs
+
+# NUnit
+*.nunit.xml
+
+# Temporary files
+~$*
+*.tmp
+
+# Combined output
+combined_project_files.cs
+combine.sh
