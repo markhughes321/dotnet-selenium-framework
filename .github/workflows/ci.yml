@@ -14,12 +14,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup .NET 6 runtime
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '6.0.x'
-
-      - name: Setup .NET 9 SDK
+      - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '9.0.x'
@@ -35,14 +30,12 @@ jobs:
           echo "RYANAIR_EMAIL=${{ secrets.RYANAIR_EMAIL }}" >> $GITHUB_ENV
           echo "RYANAIR_PASSWORD=${{ secrets.RYANAIR_PASSWORD }}" >> $GITHUB_ENV
 
-      - name: Run tests and output allure results
+      - name: Run tests and generate Allure results
         run: |
-          mkdir -p allure-results
           dotnet test UITests/UITests.csproj \
             --no-build \
             --configuration Release \
-            --logger:"console;verbosity=normal" \
-            --results-directory allure-results
+            --logger:"console;verbosity=normal"
 
       - name: Load Allure report history
         uses: actions/checkout@v3
@@ -57,7 +50,7 @@ jobs:
         if: always()
         with:
           gh_pages: gh-pages
-          allure_results: allure-results
+          allure_results: UITests/bin/Release/net6.0/allure-results
           allure_history: allure-history
 
       - name: Publish Allure report to GitHub Pages
