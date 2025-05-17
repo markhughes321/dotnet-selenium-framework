@@ -35,8 +35,7 @@ jobs:
           dotnet test UITests/UITests.csproj \
             --no-build \
             --configuration Release \
-            --logger:"console;verbosity=normal" \
-            --parallel --maxcpucount:4
+            --logger:"console;verbosity=normal"
 
       - name: Load Allure report history
         uses: actions/checkout@v3
