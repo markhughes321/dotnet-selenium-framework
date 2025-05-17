@@ -22,7 +22,7 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore UITests/UITests.csproj
 
-      - name: Build
+      - name: Build project
         run: dotnet build UITests/UITests.csproj --configuration Release
 
       - name: Set environment variables from secrets
@@ -35,7 +35,7 @@ jobs:
           dotnet test UITests/UITests.csproj \
             --no-build \
             --configuration Release \
-            --logger:"console;verbosity=normal"
+            --logger:"console;verbosity=normal" \
             --parallel --maxcpucount:4
 
       - name: Load Allure report history
