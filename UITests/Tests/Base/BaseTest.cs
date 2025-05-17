@@ -3,6 +3,9 @@ using UITests.Drivers;
 using UITests.Helpers;
 using UITests.Pages;
 using NUnit.Framework;
+using Allure.Net.Commons;
+using OpenQA.Selenium;
+using System;
 
 namespace UITests.Tests
 {
@@ -23,6 +26,24 @@ namespace UITests.Tests
     [TearDown]
     public void Teardown()
     {
+      // Check if the test failed
+      if (TestContext.CurrentContext.Result.Outcome.Status == NUnit.Framework.Interfaces.TestStatus.Failed)
+      {
+        try
+        {
+          // Capture screenshot
+          var screenshot = ((ITakesScreenshot)DriverManager.Driver).GetScreenshot();
+          var screenshotBytes = screenshot.AsByteArray;
+
+          // Attach screenshot to Allure report
+          AllureApi.AddAttachment($"Screenshot on Failure - {TestContext.CurrentContext.Test.Name}", "image/png", screenshotBytes);
+        }
+        catch (Exception ex)
+        {
+          Console.WriteLine($"Failed to capture screenshot: {ex.Message}");
+        }
+      }
+
       DriverManager.QuitDriver();
     }
   }
