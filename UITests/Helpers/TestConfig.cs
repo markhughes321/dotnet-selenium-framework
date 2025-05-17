@@ -2,6 +2,9 @@ using dotenv.net;
 
 namespace UITests.Helpers
 {
+    /// <summary>
+    /// Manages test configuration loaded from environment variables.
+    /// </summary>
     public static class TestConfig
     {
         static TestConfig()

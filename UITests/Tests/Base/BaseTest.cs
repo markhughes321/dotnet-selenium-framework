@@ -9,11 +9,17 @@ using System;
 
 namespace UITests.Tests
 {
+  /// <summary>
+  /// Base class for all tests, providing setup and teardown logic.
+  /// </summary>
   public abstract class BaseTest
   {
     protected WebDriverWait _wait;
     protected HomePage _homePage;
 
+    /// <summary>
+    /// Sets up the test environment by initializing the WebDriver, navigating to the base URL, and accepting cookies.
+    /// </summary>
     [SetUp]
     public void Setup()
     {
@@ -23,6 +29,9 @@ namespace UITests.Tests
       _homePage.AcceptCookiesIfVisible();
     }
 
+    /// <summary>
+    /// Cleans up after each test, capturing a screenshot on failure and quitting the WebDriver.
+    /// </summary>
     [TearDown]
     public void Teardown()
     {
@@ -34,7 +43,6 @@ namespace UITests.Tests
           // Capture screenshot
           var screenshot = ((ITakesScreenshot)DriverManager.Driver).GetScreenshot();
           var screenshotBytes = screenshot.AsByteArray;
-
           // Attach screenshot to Allure report
           AllureApi.AddAttachment($"Screenshot on Failure - {TestContext.CurrentContext.Test.Name}", "image/png", screenshotBytes);
         }
@@ -43,7 +51,6 @@ namespace UITests.Tests
           Console.WriteLine($"Failed to capture screenshot: {ex.Message}");
         }
       }
-
       DriverManager.QuitDriver();
     }
   }

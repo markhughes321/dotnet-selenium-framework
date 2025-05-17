@@ -3,6 +3,9 @@ using OpenQA.Selenium.Chrome;
 
 namespace UITests.Drivers
 {
+    /// <summary>
+    /// Creates a configured WebDriver instance for Chrome.
+    /// </summary>
     public static class WebDriverFactory
     {
         public static IWebDriver Create()
