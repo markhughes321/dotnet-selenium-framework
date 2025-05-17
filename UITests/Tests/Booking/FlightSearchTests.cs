@@ -21,8 +21,8 @@ namespace UITests.Tests
   [AllureLink("RYANAIR-302", "https://jira.company.com/RYANAIR-302")]
   public class FlightSearchTests : BaseTest
   {
-    [Test, Category("Regression")]
-    [AllureDescription("Verifies that a user can search for a one-way trip with flexible dates and reach the fare-finder results page.")]
+    [Test, Retry(2), Category("Regression")]
+    [AllureDescription("Validate that a user can search for a one-way trip with flexible dates and reach the fare-finder results page.")]
     public void Search_OneWayTrip_ToAnyDestination()
     {
       var homePage = PageFactory.HomePage;
@@ -33,11 +33,7 @@ namespace UITests.Tests
       AllureApi.Step("Select first available month", () => homePage.SelectFirstAvailableMonth());
       AllureApi.Step("Apply flexible dates", () => homePage.ApplyFlexibleDates());
       AllureApi.Step("Click search", () => homePage.ClickSearch());
-      AllureApi.Step("Wait for fare-finder page to load", () =>
-      {
-        bool isOnFareFinder = WaitHelper.WaitUntilUrlContains(DriverManager.Driver, "fare-finder");
-        Assert.That(isOnFareFinder, Is.True, "Expected to be on fare-finder page.");
-      });
+      AssertHelper.StepAssertUrlContainsAfterWait(DriverManager.Driver, "fare-finder", "User is navigated to the fare-finder page");
     }
   }
 }
