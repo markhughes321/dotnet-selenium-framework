@@ -21,7 +21,7 @@ namespace UITests.Tests
   [AllureLink("RYANAIR-302", "https://jira.company.com/RYANAIR-302")]
   public class FlightSearchTests : BaseTest
   {
-    [Test, Retry(2), Category("Regression")]
+    [Test, Category("Regression")]
     [AllureDescription("Validate that a user can search for a one-way trip with flexible dates and reach the fare-finder results page.")]
     public void Search_OneWayTrip_ToAnyDestination()
     {

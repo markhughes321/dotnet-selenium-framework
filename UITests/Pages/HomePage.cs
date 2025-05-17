@@ -1,6 +1,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using UITests.Helpers;
+using UITests.Locators;
 
 namespace UITests.Pages
 {
@@ -19,7 +20,7 @@ namespace UITests.Pages
         {
             try
             {
-                var cookieButton = _wait.Until(d => d.FindElement(By.CssSelector("button[data-ref='cookie.accept-all']")));
+                var cookieButton = _wait.Until(d => d.FindElement(HomePageLocators.CookieAcceptButton));
                 cookieButton.Click();
             }
             catch (WebDriverTimeoutException)
@@ -30,41 +31,49 @@ namespace UITests.Pages
 
         public void SelectOneWayTrip()
         {
-            var label = _wait.Until(d =>
-                d.FindElement(By.CssSelector("[data-ref='flight-search-trip-type__one-way-trip'] label"))
-            );
+            var label = _wait.Until(d => d.FindElement(HomePageLocators.OneWayTripLabel));
             label.Click();
         }
 
         public void OpenDestinationInput()
         {
-            var destinationInput = _wait.Until(d =>
-                d.FindElement(By.CssSelector("div[data-ref='input-button__destination'] input")));
+            var destinationInput = _wait.Until(d => d.FindElement(HomePageLocators.DestinationInput));
             destinationInput.Click();
         }
 
         public void SelectAnyDestination()
         {
-            var anyDestination = _wait.Until(d => d.FindElement(By.CssSelector("[data-id='ANY']")));
+            var anyDestination = _wait.Until(d => d.FindElement(HomePageLocators.AnyDestinationOption));
             anyDestination.Click();
         }
 
         public void SelectFirstAvailableMonth()
         {
-            var firstMonth = _wait.Until(d => d.FindElement(By.CssSelector("[data-ref^='flexible-dates__month-item']")));
+            var firstMonth = _wait.Until(d => d.FindElement(HomePageLocators.FirstAvailableMonth));
             firstMonth.Click();
         }
 
         public void ApplyFlexibleDates()
         {
-            var applyButton = _wait.Until(d => d.FindElement(By.CssSelector("button[data-ref='flexible-dates__cta-apply']")));
+            var applyButton = _wait.Until(d => d.FindElement(HomePageLocators.FlexibleDatesApplyButton));
             applyButton.Click();
         }
 
         public void ClickSearch()
         {
-            var searchButton = _wait.Until(d => d.FindElement(By.CssSelector("button[data-ref='flight-search-widget__cta']")));
+            var searchButton = _wait.Until(d => d.FindElement(HomePageLocators.SearchButton));
             searchButton.Click();
+        }
+
+        public void OpenLoginModal()
+        {
+            var loginBtn = _wait.Until(d => d.FindElement(HomePageLocators.LoginButton));
+            loginBtn.Click();
+        }
+
+        public bool IsLoggedIn()
+        {
+            return _wait.Until(d => d.FindElement(HomePageLocators.LogoutButton)).Displayed;
         }
     }
 }

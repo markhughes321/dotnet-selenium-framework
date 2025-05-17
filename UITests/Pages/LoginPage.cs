@@ -1,6 +1,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using UITests.Helpers;
+using UITests.Locators;
 
 namespace UITests.Pages
 {
@@ -15,14 +16,9 @@ namespace UITests.Pages
             _wait = WaitHelper.GetDefaultWait(driver);
         }
 
-        private IWebElement EmailInput => _wait.Until(
-            driver => driver.FindElement(By.CssSelector("[data-ref='email_input'] input[type='email']")));
-
-        private IWebElement PasswordInput => _wait.Until(
-            driver => driver.FindElement(By.CssSelector("[data-ref='password_input'] input[type='password']")));
-
-        private IWebElement LoginSubmitButton => _wait.Until(
-            driver => driver.FindElement(By.CssSelector("[data-ref='login_cta'] button")));
+        private IWebElement EmailInput => _wait.Until(driver => driver.FindElement(LoginPageLocators.EmailInput));
+        private IWebElement PasswordInput => _wait.Until(driver => driver.FindElement(LoginPageLocators.PasswordInput));
+        private IWebElement LoginSubmitButton => _wait.Until(driver => driver.FindElement(LoginPageLocators.LoginSubmitButton));
 
         public void EnterEmailAndPassword(string email, string password)
         {
@@ -39,7 +35,7 @@ namespace UITests.Pages
 
         public void Login(string email, string password)
         {
-            var iframe = _wait.Until(d => d.FindElement(By.CssSelector("iframe[data-ref='kyc-iframe']")));
+            var iframe = _wait.Until(d => d.FindElement(LoginPageLocators.KycIframe));
             _driver.SwitchTo().Frame(iframe);
             _wait.Until(d => EmailInput.Displayed && EmailInput.Enabled);
             EnterEmailAndPassword(email, password);

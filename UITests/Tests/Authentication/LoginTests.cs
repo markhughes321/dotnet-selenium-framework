@@ -2,7 +2,6 @@ using NUnit.Framework;
 using Allure.NUnit.Attributes;
 using Allure.NUnit;
 using Allure.Net.Commons;
-using UITests.Components;
 using UITests.Helpers;
 using UITests.Pages;
 using UITests.Drivers;
@@ -28,12 +27,11 @@ namespace UITests.Tests
     [AllureDescription("Validates that a user can successfully log into the Ryanair website using valid credentials.")]
     public void Login_Should_Show_LogOut_Button()
     {
-      var header = new HeaderComponent(DriverManager.Driver);
+      var homePage = PageFactory.HomePage;
       var loginPage = new LoginPage(DriverManager.Driver);
-
-      AllureApi.Step("Open login modal", () => header.OpenLoginModal());
+      AllureApi.Step("Open login modal", () => homePage.OpenLoginModal());
       AllureApi.Step("Login with valid credentials", () => loginPage.Login(TestConfig.RyanairEmail, TestConfig.RyanairPassword));
-      AssertHelper.StepAssertIsTrue(header.IsLoggedIn(), "Logout button should be visible after login");
+      AssertHelper.StepAssertIsTrue(homePage.IsLoggedIn(), "Logout button should be visible after login");
     }
   }
 }
