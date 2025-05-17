@@ -39,11 +39,8 @@ Core Features
 Folder Structure
 ----------------
 
-bash
-
-CopyEdit
-
-`├── Components/            # Reusable UI components
+```
+├── Components/            # Reusable UI components
 ├── Drivers/               # Driver manager and setup
 ├── Helpers/               # Assertion, config, wait logic, and Allure setup
 ├── Pages/                 # Page Object Model classes grouped by domain
@@ -52,6 +49,7 @@ CopyEdit
 ├── Reports/               # Output location for reports and screenshots
 ├── .env                   # Env variables (e.g. credentials)
 ├── UITests.csproj         # Project file`
+```
 
 Getting Started
 ---------------
@@ -67,29 +65,23 @@ Getting Started
 
 4.  **Configure environment variables**\
     Create a `.env` file in the root:
-
-    ini
-
-    CopyEdit
-
-    `RYANAIR_EMAIL=your_email@example.com
-    RYANAIR_PASSWORD=your_password`
+    ```
+    RYANAIR_EMAIL=your_email@mail.com
+    RYANAIR_PASSWORD=your_password
+    ```
 
 5.  **Run the tests locally**
+    ```
+    dotnet build
+    dotnet test
+    ```
 
-    bash
+6.  **View Allure reports (Run from the root directory)**
+    `allure serve ./UITests/bin/Debug/net6.0/allure-results`
 
-    CopyEdit
+7.  **Run using NUnit categories**
+    `dotnet test --filter "Category=Smoke"`
 
-    `dotnet test --logger:"console;verbosity=detailed"`
-
-6.  **View Allure reports**
-
-    bash
-
-    CopyEdit
-
-    `allure serve ./allure-results`
 
 CI/CD
 -----
@@ -103,5 +95,4 @@ Author
 ------
 
 Mark Hughes\
-Senior QA Engineer | Automation Specialist\
 <https://github.com/markhughes321>
