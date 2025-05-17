@@ -1,0 +1,69 @@
+{
+  "allure": {
+    "directory": "allure-results",
+    "links": [
+      {
+        "name": "jira",
+        "type": "issue",
+        "url": "https://jira.company.com/{0}"
+      }
+    ]
+  },
+  "categories": [
+    {
+      "name": "Passed",
+      "matchedStatuses": [
+        "passed"
+      ],
+      "messageRegex": ".*"
+    },
+    {
+      "name": "Failed",
+      "matchedStatuses": [
+        "failed"
+      ],
+      "messageRegex": "(?!(.*WebDriverException|.*TimeoutException|.*NoSuchElementException)).*",
+      "traceRegex": ".*"
+    },
+    {
+      "name": "Element Not Found",
+      "matchedStatuses": [
+        "failed"
+      ],
+      "messageRegex": ".*NoSuchElementException.*",
+      "traceRegex": ".*NoSuchElementException.*"
+    },
+    {
+      "name": "Timeout",
+      "matchedStatuses": [
+        "failed"
+      ],
+      "messageRegex": ".*TimeoutException.*",
+      "traceRegex": ".*TimeoutException.*"
+    },
+    {
+      "name": "WebDriver Error",
+      "matchedStatuses": [
+        "failed"
+      ],
+      "messageRegex": ".*WebDriverException.*",
+      "traceRegex": ".*WebDriverException.*"
+    },
+    {
+      "name": "Broken",
+      "matchedStatuses": [
+        "broken"
+      ],
+      "messageRegex": ".*",
+      "traceRegex": ".*"
+    },
+    {
+      "name": "Skipped",
+      "matchedStatuses": [
+        "skipped"
+      ],
+      "messageRegex": ".*",
+      "traceRegex": ".*"
+    }
+  ]
+}
