@@ -1,80 +1,107 @@
-SeleniumFramework
-=================
+DotNet Selenium Framework -- Senior SDET Interview Prep
+======================================================
 
-This is a UI Test Automation framework built using C#, Selenium WebDriver, NUnit, and GitHub Actions. It automates UI scenarios on the Ryanair website and is structured for scalability and maintainability.
-
-Project Structure
------------------
-
-*   Tests/ – Contains all NUnit test classes.
-    
-*   Pages/ – Page Object Models for different pages of the application.
-    
-*   Components/ – Shared UI components like headers, footers, etc.
-    
-*   Helpers/ – Utilities like config loading, wait helpers, constants.
-    
-*   Drivers/ – WebDriver setup and teardown logic.
-    
-*   Properties/AssemblyInfo.cs – Enables parallel test execution.
-    
-*   .github/workflows/ci.yml – CI pipeline definition for GitHub Actions.
-    
-
-Features
+Overview
 --------
 
-*   Parallel test execution via NUnit
-    
-*   Page Object Model (POM) design pattern
-    
-*   Centralized wait logic
-    
-*   Environment variable loading via .env file
-    
-*   GitHub Actions integration
-    
+This project is a C# and Selenium-based UI test automation framework built as part of a technical exercise to demonstrate the capabilities of a **Senior Software Development Engineer in Test (SDET)**.
 
-Prerequisites
+The objective is to show hands-on expertise in building a scalable and maintainable test automation framework from the ground up --- with clean architecture, robust test execution, and integration with reporting and CI/CD pipelines.
+
+It targets modern web applications (e.g. Angular, React) and is built using .NET 6, Selenium WebDriver, NUnit, and Allure for reporting.
+
+Core Features
 -------------
 
-*   [.NET 9 SDK](https://dotnet.microsoft.com/)
-    
-*   Chrome
-    
-*   ChromeDriver
-    
-*   Git
-    
+-   ✅ Built using **.NET 6**, **Selenium WebDriver**, and **NUnit**
 
-How to Run Locally
-------------------
+-   ✅ Fully implemented **Page Object Model (POM)** structure
 
-1.  Restore dependencies:dotnet restore
-    
-2.  Run tests:dotnet test
-    
-3.  Run by category:dotnet test --filter TestCategory=Login
-    
+-   ✅ **Reusable Components** and page abstractions (`HeaderComponent`, `LoginPage`, `HomePage`)
 
-Environment Variables
----------------------
+-   ✅ **Custom Assertion Helpers** with Allure step integration for readable test flow
 
-Create a .env file in the UITests folder with the following:
+-   ✅ **Central Driver Management** using `DriverManager` and `WebDriverFactory`
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   iniCopyEditRYANAIR_EMAIL=your_email@example.com  RYANAIR_PASSWORD=your_password   `
+-   ✅ **Explicit Waits** wrapped in `WaitHelper` to handle dynamic web elements
 
-These are loaded using dotenv.net.
+-   ✅ **Parallel Execution** setup via `AssemblyInfo.cs`
 
-Debugging Test Failures
------------------------
+-   ✅ **Retry Logic** on flaky tests using `[Retry(2)]`
 
-*   Logs are shown in the console via test runner.
-    
-*   Update BaseTest to take screenshots or log HTML if needed on failure.
-    
+-   ✅ Integrated with **Allure Reporting**
+
+-   ✅ **CI Integration via GitHub Actions** --- tests run on push/PR
+
+-   ✅ **Hosted test reports** available at:\
+    <https://markhughes321.github.io/dotnet-selenium-framework/10/>
+
+Folder Structure
+----------------
+
+bash
+
+CopyEdit
+
+`├── Components/            # Reusable UI components
+├── Drivers/               # Driver manager and setup
+├── Helpers/               # Assertion, config, wait logic, and Allure setup
+├── Pages/                 # Page Object Model classes grouped by domain
+├── Tests/                 # Test classes grouped by feature area
+├── Resources/             # Data-driven test inputs (optional)
+├── Reports/               # Output location for reports and screenshots
+├── .env                   # Env variables (e.g. credentials)
+├── UITests.csproj         # Project file`
+
+Getting Started
+---------------
+
+1.  **Clone the repository**\
+    `git clone https://github.com/markhughes321/dotnet-selenium-framework.git`
+
+2.  **Install .NET 6 SDK**\
+    Download from: <https://dotnet.microsoft.com/en-us/download/dotnet/6.0>
+
+3.  **Install Allure commandline (optional for local reporting)**\
+    `npm install -g allure-commandline --save-dev`
+
+4.  **Configure environment variables**\
+    Create a `.env` file in the root:
+
+    ini
+
+    CopyEdit
+
+    `RYANAIR_EMAIL=your_email@example.com
+    RYANAIR_PASSWORD=your_password`
+
+5.  **Run the tests locally**
+
+    bash
+
+    CopyEdit
+
+    `dotnet test --logger:"console;verbosity=detailed"`
+
+6.  **View Allure reports**
+
+    bash
+
+    CopyEdit
+
+    `allure serve ./allure-results`
 
 CI/CD
 -----
 
-This project runs tests automatically using GitHub Actions. See .github/workflows/ci.yml.
+Tests are executed on every push and pull request via GitHub Actions.\
+Results are published and accessible at:
+
+<https://markhughes321.github.io/dotnet-selenium-framework/10/>
+
+Author
+------
+
+Mark Hughes\
+Senior QA Engineer | Automation Specialist\
+<https://github.com/markhughes321>
