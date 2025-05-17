@@ -1,4 +1,3 @@
-using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using UITests.Drivers;
 using UITests.Helpers;
@@ -7,28 +6,24 @@ using NUnit.Framework;
 
 namespace UITests.Tests
 {
-    public abstract class BaseTest
+  public abstract class BaseTest
+  {
+    protected WebDriverWait _wait;
+    protected HomePage _homePage;
+
+    [SetUp]
+    public void Setup()
     {
-        protected IWebDriver _driver;
-        protected WebDriverWait _wait;
-        protected HomePage _homePage;
-
-        [SetUp]
-        public void Setup()
-        {
-            _driver = WebDriverFactory.Create();
-            _wait = WaitHelper.GetDefaultWait(_driver);
-            _driver.Navigate().GoToUrl(Constants.BaseUrl);
-
-            _homePage = new HomePage(_driver);
-            _homePage.AcceptCookiesIfVisible();
-        }
-
-        [TearDown]
-        public void Teardown()
-        {
-            _driver?.Quit();
-            _driver?.Dispose();
-        }
+      _wait = WaitHelper.GetDefaultWait(DriverManager.Driver);
+      DriverManager.Driver.Navigate().GoToUrl(Constants.BaseUrl);
+      _homePage = new HomePage(DriverManager.Driver);
+      _homePage.AcceptCookiesIfVisible();
     }
+
+    [TearDown]
+    public void Teardown()
+    {
+      DriverManager.QuitDriver();
+    }
+  }
 }

@@ -5,6 +5,7 @@ using Allure.Net.Commons;
 using UITests.Components;
 using UITests.Helpers;
 using UITests.Pages;
+using UITests.Drivers;
 
 namespace UITests.Tests
 {
@@ -23,17 +24,15 @@ namespace UITests.Tests
   public class LoginTests : BaseTest
   {
     [Test]
+    [Category("Smoke")]
     [AllureDescription("This test validates that a user can successfully log into the Ryanair website using valid credentials.")]
     public void Login_Should_Show_LogOut_Button()
     {
-      var header = new HeaderComponent(_driver);
-      var loginPage = new LoginPage(_driver);
-
+      var header = new HeaderComponent(DriverManager.Driver);
+      var loginPage = new LoginPage(DriverManager.Driver);
       AllureApi.Step("Open login modal", () => header.OpenLoginModal());
-      AllureApi.Step("Login with valid credentials", () =>
-          loginPage.Login(TestConfig.RyanairEmail, TestConfig.RyanairPassword));
-      AllureApi.Step("Verify logout button is visible", () =>
-          Assert.That(header.IsLoggedIn(), Is.True));
+      AllureApi.Step("Login with valid credentials", () => loginPage.Login(TestConfig.RyanairEmail, TestConfig.RyanairPassword));
+      AllureApi.Step("Verify logout button is visible", () => Assert.That(header.IsLoggedIn(), Is.True));
     }
   }
 }
