@@ -9,6 +9,7 @@ namespace UITests.Tests
 {
   [TestFixture]
   [AllureNUnit]
+  [Parallelizable(ParallelScope.All)]
   [AllureSuite("Login")]
   [AllureSubSuite("Regression")]
   [AllureEpic("Authentication")]
