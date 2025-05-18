@@ -1,0 +1,4 @@
+"Epic","Feature","Story","FAILED","BROKEN","PASSED","SKIPPED","UNKNOWN"
+"Booking Flow","Flight Search","Search one-way trips to any destination","0","0","1","0","0"
+"Authentication","Login functionality","User logs in successfully","0","0","1","0","0"
+"Authentication","Login functionality","User fails to log in with invalid credentials","0","0","1","0","0"
