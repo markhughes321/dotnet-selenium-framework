@@ -2,42 +2,34 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using NUnit.Framework;
 using Allure.Net.Commons;
+using UITests.Drivers; // Added to resolve DriverManager
 
 namespace UITests.Helpers
 {
     public static class AssertHelper
     {
-        public static void StepAssertIsTrue(bool condition, string stepDescription)
+        public static void StepAssert(Func<bool> condition, string stepDescription, int? timeoutSeconds = null)
         {
             AllureApi.Step(stepDescription, () =>
             {
-                Assert.That(condition, Is.True, stepDescription);
+                if (timeoutSeconds.HasValue)
+                {
+                    var wait = new WebDriverWait(DriverManager.Driver, TimeSpan.FromSeconds(timeoutSeconds.Value));
+                    bool result = wait.Until(_ => condition());
+                    Assert.That(result, Is.True, stepDescription);
+                }
+                else
+                {
+                    Assert.That(condition(), Is.True, stepDescription);
+                }
             });
         }
 
-        public static void StepAssertElementVisible(IWebElement element, string stepDescription)
+        public static void StepAssertEqual<T>(T actual, T expected, string stepDescription)
         {
             AllureApi.Step(stepDescription, () =>
             {
-                Assert.That(element.Displayed, Is.True, stepDescription);
-            });
-        }
-
-        public static void StepAssertUrlContains(IWebDriver driver, string expectedSubstring, string stepDescription)
-        {
-            AllureApi.Step(stepDescription, () =>
-            {
-                Assert.That(driver.Url.Contains(expectedSubstring), Is.True, stepDescription);
-            });
-        }
-
-        public static void StepAssertUrlContainsAfterWait(IWebDriver driver, string expectedSubstring, string stepDescription, int timeoutSeconds = Constants.DefaultWaitSeconds)
-        {
-            AllureApi.Step(stepDescription, () =>
-            {
-                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutSeconds));
-                bool result = wait.Until(d => d.Url.Contains(expectedSubstring));
-                Assert.That(result, Is.True, stepDescription);
+                Assert.That(actual, Is.EqualTo(expected), stepDescription);
             });
         }
     }

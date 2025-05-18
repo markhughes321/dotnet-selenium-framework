@@ -1,12 +1,11 @@
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using UITests.Drivers;
 using UITests.Helpers;
 using UITests.Pages;
 using NUnit.Framework;
 using Allure.Net.Commons;
-using OpenQA.Selenium;
 using System;
-
 namespace UITests.Tests
 {
   /// <summary>
@@ -16,19 +15,19 @@ namespace UITests.Tests
   {
     protected WebDriverWait _wait;
     protected HomePage _homePage;
-
     /// <summary>
     /// Sets up the test environment by initializing the WebDriver, navigating to the base URL, and accepting cookies.
     /// </summary>
     [SetUp]
     public void Setup()
     {
+      // Ensure a fresh WebDriver instance
+      DriverManager.InitializeDriver();
       _wait = WaitHelper.GetDefaultWait(DriverManager.Driver);
       DriverManager.Driver.Navigate().GoToUrl(Constants.BaseUrl);
       _homePage = new HomePage(DriverManager.Driver);
       _homePage.AcceptCookiesIfVisible();
     }
-
     /// <summary>
     /// Cleans up after each test, capturing a screenshot on failure and quitting the WebDriver.
     /// </summary>
@@ -40,11 +39,14 @@ namespace UITests.Tests
       {
         try
         {
-          // Capture screenshot
-          var screenshot = ((ITakesScreenshot)DriverManager.Driver).GetScreenshot();
-          var screenshotBytes = screenshot.AsByteArray;
-          // Attach screenshot to Allure report
-          AllureApi.AddAttachment($"Screenshot on Failure - {TestContext.CurrentContext.Test.Name}", "image/png", screenshotBytes);
+          // Verify WebDriver is still valid before taking screenshot
+          if (DriverManager.Driver != null)
+          {
+            var screenshot = ((ITakesScreenshot)DriverManager.Driver).GetScreenshot();
+            var screenshotBytes = screenshot.AsByteArray;
+            // Attach screenshot to Allure report
+            AllureApi.AddAttachment($"Screenshot on Failure - {TestContext.CurrentContext.Test.Name}", "image/png", screenshotBytes);
+          }
         }
         catch (Exception ex)
         {

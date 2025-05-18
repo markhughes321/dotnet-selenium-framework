@@ -1,3 +1,4 @@
+// File: ./UITests/Pages/LoginPage.cs
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using UITests.Helpers;
@@ -19,6 +20,7 @@ namespace UITests.Pages
         private IWebElement EmailInput => _wait.Until(driver => driver.FindElement(LoginPageLocators.EmailInput));
         private IWebElement PasswordInput => _wait.Until(driver => driver.FindElement(LoginPageLocators.PasswordInput));
         private IWebElement LoginSubmitButton => _wait.Until(driver => driver.FindElement(LoginPageLocators.LoginSubmitButton));
+        private IWebElement ErrorMessage => _wait.Until(driver => driver.FindElement(LoginPageLocators.ErrorMessage));
 
         public void EnterEmailAndPassword(string email, string password)
         {
@@ -41,6 +43,15 @@ namespace UITests.Pages
             EnterEmailAndPassword(email, password);
             SubmitLogin();
             _driver.SwitchTo().DefaultContent();
+        }
+
+        public string GetErrorMessage()
+        {
+            var iframe = _wait.Until(d => d.FindElement(LoginPageLocators.KycIframe));
+            _driver.SwitchTo().Frame(iframe);
+            var errorText = ErrorMessage.Text;
+            _driver.SwitchTo().DefaultContent();
+            return errorText;
         }
     }
 }

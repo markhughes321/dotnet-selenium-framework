@@ -1,54 +1,72 @@
 DotNet Selenium Framework -- Senior SDET Interview Prep
-======================================================
+=======================================================
 
 Overview
 --------
 
-This project is a C# and Selenium-based UI test automation framework built as part of a technical exercise to demonstrate the capabilities of a **Senior Software Development Engineer in Test (SDET)**.
+This project is a C# and Selenium-based UI test automation framework. It automates UI testing for the Ryanair website, focusing on login and flight search functionalities.
 
-The objective is to show hands-on expertise in building a scalable and maintainable test automation framework from the ground up --- with clean architecture, robust test execution, and integration with reporting and CI/CD pipelines.
-
-It targets modern web applications (e.g. Angular, React) and is built using .NET 6, Selenium WebDriver, NUnit, and Allure for reporting.
+The objective is to showcase ability in building a scalable, maintainable test automation framework with clean architecture, robust test execution, and integration with reporting and CI/CD pipelines.
 
 Core Features
 -------------
 
--   ✅ Built using **.NET 6**, **Selenium WebDriver**, and **NUnit**
+-   Built using .NET 6, Selenium WebDriver, and NUnit.
 
--   ✅ Fully implemented **Page Object Model (POM)** structure
+-   Fully implemented Page Object Model (POM) structure for maintainability.
 
--   ✅ **Reusable Components** and page abstractions (`HeaderComponent`, `LoginPage`, `HomePage`)
+-   Central Driver Management with thread-safe WebDriver instances (DriverManager, WebDriverFactory).
 
--   ✅ **Custom Assertion Helpers** with Allure step integration for readable test flow
+-   Explicit Waits via WaitHelper to handle dynamic web elements.
 
--   ✅ **Central Driver Management** using `DriverManager` and `WebDriverFactory`
+-   Custom Assertion Helpers with Allure step integration for readable test reports.
 
--   ✅ **Explicit Waits** wrapped in `WaitHelper` to handle dynamic web elements
+-   Parallel Execution of test fixtures (up to 4 concurrently).
 
--   ✅ **Parallel Execution** setup via `AssemblyInfo.cs`
+-   Integrated Allure Reporting with screenshots on test failure.
 
--   ✅ **Retry Logic** on flaky tests using `[Retry(2)]`
+-   CI/CD Integration via GitHub Actions, running tests on push/pull requests.
 
--   ✅ Integrated with **Allure Reporting**
+-   Hosted Test Reports available at: https://markhughes321.github.io/dotnet-selenium-framework/10/.
 
--   ✅ **CI Integration via GitHub Actions** --- tests run on push/PR
+-   Environment Variable Management for secure credential handling (via .env).
 
--   ✅ **Hosted test reports** available at:\
-    <https://markhughes321.github.io/dotnet-selenium-framework/10/>
+-   Makefile for simplified test execution and report generation.
 
 Folder Structure
 ----------------
-
 ```
-├── Components/            # Reusable UI components
-├── Drivers/               # Driver manager and setup
-├── Helpers/               # Assertion, config, wait logic, and Allure setup
-├── Pages/                 # Page Object Model classes grouped by domain
-├── Tests/                 # Test classes grouped by feature area
-├── Resources/             # Data-driven test inputs (optional)
-├── Reports/               # Output location for reports and screenshots
-├── .env                   # Env variables (e.g. credentials)
-├── UITests.csproj         # Project file`
+├── Makefile
+├── Readme.md
+├── SeleniumFramework.sln
+├── UITests
+│   ├── Drivers
+│   │   ├── DriverManager.cs
+│   │   └── WebDriverFactory.cs
+│   ├── Helpers
+│   │   ├── AllureSetup.cs
+│   │   ├── AssertHelper.cs
+│   │   ├── Constants.cs
+│   │   ├── TestConfig.cs
+│   │   └── WaitHelper.cs
+│   ├── Locators
+│   │   ├── HomePageLocators.cs
+│   │   └── LoginPageLocators.cs
+│   ├── Pages
+│   │   ├── HomePage.cs
+│   │   ├── LoginPage.cs
+│   │   └── PageFactory.cs
+│   ├── Properties
+│   │   └── AssemblyInfo.cs
+│   ├── Tests
+│   │   ├── Authentication
+│   │   │   └── LoginTests.cs
+│   │   ├── Base
+│   │   │   └── BaseTest.cs
+│   │   └── Booking
+│   │       └── FlightSearchTests.cs
+│   ├── UITests.csproj
+│   └── allureConfig.json
 ```
 
 Getting Started
@@ -61,7 +79,9 @@ Getting Started
     Download from: <https://dotnet.microsoft.com/en-us/download/dotnet/6.0>
 
 3.  **Install Allure commandline (optional for local reporting)**\
-    `npm install -g allure-commandline --save-dev`
+    ```    
+    npm install -g allure-commandline --save-dev
+    ```
 
 4.  **Configure environment variables**\
     Create a `.env` file in the root:
@@ -77,22 +97,29 @@ Getting Started
     ```
 
 6.  **View Allure reports (Run from the root directory)**
-    `allure serve ./UITests/bin/Debug/net6.0/allure-results`
+    ```
+    allure serve ./UITests/bin/Debug/net6.0/allure-results
+    ```
+
 
 7.  **Run using NUnit categories**
-    `dotnet test --filter "Category=Smoke"`
-
+    ```
+    dotnet test --filter "Category=Smoke"
+    ```
 
 CI/CD
 -----
 
-Tests are executed on every push and pull request via GitHub Actions.\
-Results are published and accessible at:
+Tests are executed automatically on every push and pull request to the main branch via GitHub Actions. The pipeline:
 
-<https://markhughes321.github.io/dotnet-selenium-framework/10/>
+-   Restores dependencies and builds the project.
+
+-   Runs tests with credentials from GitHub Secrets.
+
+-   Generates and publishes Allure reports to GitHub Pages.
+
 
 Author
 ------
 
-Mark Hughes\
-<https://github.com/markhughes321>
+Mark Hughes https://github.com/markhughes321

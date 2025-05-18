@@ -1,11 +1,10 @@
 using NUnit.Framework;
-using Allure.NUnit.Attributes;
 using Allure.NUnit;
+using Allure.NUnit.Attributes;
 using Allure.Net.Commons;
 using UITests.Helpers;
 using UITests.Pages;
 using UITests.Drivers;
-
 namespace UITests.Tests
 {
   [TestFixture]
@@ -14,7 +13,6 @@ namespace UITests.Tests
   [AllureSubSuite("Regression")]
   [AllureEpic("Authentication")]
   [AllureFeature("Login functionality")]
-  [AllureStory("User logs in successfully")]
   [AllureOwner("Mark")]
   [AllureTag("Login", "CriticalPath")]
   [AllureSeverity(SeverityLevel.critical)]
@@ -25,13 +23,31 @@ namespace UITests.Tests
     [Test]
     [Category("Smoke")]
     [AllureDescription("Validates that a user can successfully log into the Ryanair website using valid credentials.")]
-    public void Login_Should_Show_LogOut_Button()
+    [AllureStory("User logs in successfully")]
+    public void Login_Successfully()
     {
       var homePage = PageFactory.HomePage;
       var loginPage = new LoginPage(DriverManager.Driver);
       AllureApi.Step("Open login modal", () => homePage.OpenLoginModal());
       AllureApi.Step("Login with valid credentials", () => loginPage.Login(TestConfig.RyanairEmail, TestConfig.RyanairPassword));
-      AssertHelper.StepAssertIsTrue(homePage.IsLoggedIn(), "Logout button should be visible after login");
+      AssertHelper.StepAssert(() => homePage.IsLoggedIn(), "Logout button should be visible after login");
+    }
+    [Test]
+    [Category("Regression")]
+    [AllureDescription("Validates that a user receives an error message when attempting to log in with invalid credentials.")]
+    [AllureStory("User fails to log in with invalid credentials")]
+    [AllureTag("NegativeTest")]
+    public void Login_InvalidCredentials()
+    {
+      var homePage = PageFactory.HomePage;
+      var loginPage = new LoginPage(DriverManager.Driver);
+      AllureApi.Step("Open login modal", () => homePage.OpenLoginModal());
+      AllureApi.Step("Attempt login with invalid credentials", () => loginPage.Login("invalidEmail", "invalidPassword"));
+      AllureApi.Step("Verify error message", () =>
+      {
+        var errorMessage = loginPage.GetErrorMessage();
+        AssertHelper.StepAssertEqual(errorMessage, "Incorrect email address or password, 4 attempts left", "Expected error message was not displayed");
+      });
     }
   }
 }
