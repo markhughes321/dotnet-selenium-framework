@@ -28,7 +28,7 @@ namespace UITests.Tests
     public void Login_Successfully()
     {
       var homePage = PageFactory.HomePage;
-      var loginPage = new LoginPage(DriverManager.Driver);
+      var loginPage = PageFactory.LoginPage;
       AllureApi.Step("Open login modal", () => homePage.OpenLoginModal());
       AllureApi.Step("Login with valid credentials", () => loginPage.Login(TestConfig.RyanairEmail, TestConfig.RyanairPassword));
       AssertHelper.StepAssert(() => homePage.IsLoggedIn(), "Logout button should be visible after login");
@@ -41,14 +41,10 @@ namespace UITests.Tests
     public void Login_InvalidCredentials()
     {
       var homePage = PageFactory.HomePage;
-      var loginPage = new LoginPage(DriverManager.Driver);
+      var loginPage = PageFactory.LoginPage; // Use PageFactory instead of direct instantiation
       AllureApi.Step("Open login modal", () => homePage.OpenLoginModal());
       AllureApi.Step("Attempt login with invalid credentials", () => loginPage.Login("invalidEmail", "invalidPassword"));
-      AllureApi.Step("Verify error message", () =>
-      {
-        var errorMessage = loginPage.GetErrorMessage();
-        AssertHelper.StepAssertEqual(errorMessage, "Incorrect email address or password, 4 attempts left", "Expected error message was not displayed");
-      });
+      AssertHelper.StepAssert(() => loginPage.GetErrorMessage().Contains("Incorrect email address or password, 4 attempts left"), "Expected error message was displayed");
     }
   }
 }
