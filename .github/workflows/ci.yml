@@ -1,41 +1,34 @@
 # CI workflow for .NET test automation
 name: .NET Test Automation CI
-
 # Trigger on push or pull request to main branch
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
       # Checkout the repository code
       - name: Checkout code
-        uses: actions/checkout@v3
-
-      # Set up .NET 6 SDK
-      - name: Setup .NET 6
-        uses: actions/setup-dotnet@v3
+        uses: actions/checkout@v4
+      # Set up .NET 8 SDK
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '6.0.x'
-
+          dotnet-version: '8.0.x'
       # Restore project dependencies
       - name: Restore dependencies
         run: dotnet restore UITests/UITests.csproj
-
       # Build the project in Release configuration
       - name: Build project
         run: dotnet build UITests/UITests.csproj --configuration Release
-
       # Set environment variables from GitHub secrets
       - name: Set environment variables from secrets
         run: |
           echo "RYANAIR_EMAIL=${{ secrets.RYANAIR_EMAIL }}" >> $GITHUB_ENV
           echo "RYANAIR_PASSWORD=${{ secrets.RYANAIR_PASSWORD }}" >> $GITHUB_ENV
-
       # Run tests and generate Allure results
       - name: Run tests and generate Allure results
         run: |
@@ -43,28 +36,25 @@ jobs:
             --no-build \
             --configuration Release \
             --logger:"console;verbosity=normal"
-
       # Load Allure report history from gh-pages branch
       - name: Load Allure report history
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         if: always()
         continue-on-error: true
         with:
           ref: gh-pages
           path: gh-pages
-
       # Build Allure report from test results
       - name: Build Allure report
         uses: simple-elf/allure-report-action@v1.7
         if: always()
         with:
           gh_pages: gh-pages
-          allure_results: UITests/bin/Release/net6.0/allure-results
+          allure_results: UITests/bin/Release/net8.0/allure-results
           allure_history: allure-history
-
       # Publish Allure report to GitHub Pages
       - name: Publish Allure report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
