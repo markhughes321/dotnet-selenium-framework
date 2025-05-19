@@ -207,3 +207,14 @@ Key Design Choices
 -   **Modular Helpers**: Simplifies common tasks like waiting or asserting, reducing code duplication.
 
 -   **CI Workflow**: Automates testing and reporting via GitHub Actions for consistent results.
+
+Troubleshooting
+---------------
+
+-   **Test Fails to Find Elements**: Check locators in Locators/ classes and ensure the website hasn't changed.
+
+-   **Environment Variables Missing**: Verify the .env file exists and contains valid credentials.
+
+-   **Allure Report Not Generating**: Ensure Allure CLI is installed and run make report after tests.
+
+-   **Browser Issues**: Confirm Chrome is installed and compatible with the Selenium WebDriver version.
