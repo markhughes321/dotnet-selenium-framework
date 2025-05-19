@@ -46,5 +46,19 @@ namespace UITests.Tests
       AllureApi.Step("Attempt login with invalid credentials", () => loginPage.Login("invalidEmail", "invalidPassword"));
       AssertHelper.StepAssert(() => loginPage.GetErrorMessage().Contains("Incorrect email address or password, 4 attempts left"), "Expected error message was displayed");
     }
+
+    [Test]
+    [Category("Regression")]
+    [AllureDescription("Llogin with empty credentials, expected to fail.")]
+    [AllureStory("User attempts login with empty credentials")]
+    [AllureTag("NegativeTest", "FailingTest")]
+    public void Login_EmptyCredentials_FailsIncorrectly()
+    {
+      var homePage = PageFactory.HomePage;
+      var loginPage = PageFactory.LoginPage;
+      AllureApi.Step("Open login modal", () => homePage.OpenLoginModal());
+      AllureApi.Step("Attempt login with empty credentials", () => loginPage.Login("", ""));
+      AssertHelper.StepAssert(() => homePage.IsLoggedIn(), "Logout button should be visible after login (incorrectly expected)");
+    }
   }
 }
