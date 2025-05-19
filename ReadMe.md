@@ -1,16 +1,18 @@
 UI Test Automation Framework
 ============================
 
-This framework automates testing for the Ryanair website using C# and Selenium. It's designed to be easy to maintain, scalable, and reliable, with clear reporting for test results. Below, you'll find an overview of the framework, how to set it up, run tests, and add new tests.
+This framework automates testing for the Ryanair (Angular) website using C# and Selenium. It's designed to be easy to maintain, scalable, and reliable, with clear reporting for test results. Below, you'll find an overview of the framework, how to set it up, run tests, and add new tests.
 
 Framework Overview
 ------------------
 
-The framework is built to test key features of the Ryanair website, such as searching for flights and logging in. It uses a modular design to keep code organized and reusable, making it simple to add new tests or update existing ones. Key features include:
+The framework uses a modular design to keep code organized and reusable, making it simple to add new tests or update existing ones. 
+
+Key features include:
 
 -   **Page Objects**: Each webpage (e.g., Home, Login) has its own class to manage interactions, keeping tests clean and focused.
 
--   **Centralized WebDriver Management**: Ensures browser sessions are handled consistently across tests, supporting parallel execution.
+-   **Centralised WebDriver Management**: Ensures browser sessions are handled consistently across tests, supporting parallel execution.
 
 -   **Reusable Helpers**: Common tasks like waiting for elements or asserting conditions are simplified with helper classes.
 
@@ -207,14 +209,3 @@ Key Design Choices
 -   **Modular Helpers**: Simplifies common tasks like waiting or asserting, reducing code duplication.
 
 -   **CI Workflow**: Automates testing and reporting via GitHub Actions for consistent results.
-
-Troubleshooting
----------------
-
--   **Test Fails to Find Elements**: Check locators in Locators/ classes and ensure the website hasn't changed.
-
--   **Environment Variables Missing**: Verify the .env file exists and contains valid credentials.
-
--   **Allure Report Not Generating**: Ensure Allure CLI is installed and run make report after tests.
-
--   **Browser Issues**: Confirm Chrome is installed and compatible with the Selenium WebDriver version.
