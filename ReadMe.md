@@ -1,4 +1,4 @@
-UI Test Automation Framework
+UI Test Automation Frameworkk
 ============================
 
 This framework automates testing for the Ryanair (Angular) website using C# and Selenium. It's designed to be easy to maintain, scalable, and reliable, with clear reporting for test results. Below, you'll find an overview of the framework, how to set it up, run tests, and add new tests.
