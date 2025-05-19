@@ -1,125 +1,209 @@
-DotNet Selenium Framework -- Senior SDET Interview Prep
-=======================================================
+UI Test Automation Framework
+============================
 
-Overview
---------
+This framework automates testing for the Ryanair website using C# and Selenium. It's designed to be easy to maintain, scalable, and reliable, with clear reporting for test results. Below, you'll find an overview of the framework, how to set it up, run tests, and add new tests.
 
-This project is a C# and Selenium-based UI test automation framework. It automates UI testing for the Ryanair website, focusing on login and flight search functionalities.
+Framework Overview
+------------------
 
-The objective is to showcase ability in building a scalable, maintainable test automation framework with clean architecture, robust test execution, and integration with reporting and CI/CD pipelines.
+The framework is built to test key features of the Ryanair website, such as searching for flights and logging in. It uses a modular design to keep code organized and reusable, making it simple to add new tests or update existing ones. Key features include:
 
-Core Features
+-   **Page Objects**: Each webpage (e.g., Home, Login) has its own class to manage interactions, keeping tests clean and focused.
+
+-   **Centralized WebDriver Management**: Ensures browser sessions are handled consistently across tests, supporting parallel execution.
+
+-   **Reusable Helpers**: Common tasks like waiting for elements or asserting conditions are simplified with helper classes.
+
+-   **Detailed Reporting**: Uses Allure to generate clear, visual reports with screenshots for failed tests.
+
+-   **Environment Configuration**: Sensitive data like login credentials are securely stored in a .env file.
+
+-   **CI Integration**: Includes a GitHub Actions workflow for automated testing and report publishing.
+
+Project Structure
+-----------------
+
+The framework is organized for clarity and ease of use:
+
+-   **Tests/**: Contains test classes (e.g., FlightSearchTests.cs, LoginTests.cs) for specific features.
+
+-   **Pages/**: Page object classes (e.g., HomePage.cs, LoginPage.cs) for interacting with webpages.
+
+-   **Locators/**: Stores element locators (e.g., HomePageLocators.cs) to keep them separate and maintainable.
+
+-   **Drivers/**: Manages the WebDriver (e.g., DriverManager.cs, WebDriverFactory.cs) for browser control.
+
+-   **Helpers/**: Utility classes (e.g., WaitHelper.cs, AssertHelper.cs) for common tasks.
+
+-   **allureConfig.json**: Configures Allure reporting for test results.
+
+-   **.env**: Stores environment variables like login credentials.
+
+-   **Makefile**: Provides shortcuts for running tests and generating reports.
+
+Prerequisites
 -------------
 
--   Built using .NET 6, Selenium WebDriver, and NUnit.
+To run the framework, ensure you have:
 
--   Fully implemented Page Object Model (POM) structure for maintainability.
+-   **.NET 8.0 SDK**: Installed on your machine (download here).
 
--   Central Driver Management with thread-safe WebDriver instances (DriverManager, WebDriverFactory).
+-   **Chrome Browser**: The framework uses Chrome in headless mode.
 
--   Explicit Waits via WaitHelper to handle dynamic web elements.
+-   **Allure CLI**: For generating and viewing test reports (installation guide).
 
--   Custom Assertion Helpers with Allure step integration for readable test reports.
+-   **Git**: To clone the repository.
 
--   Parallel Execution of test fixtures (up to 4 concurrently).
+-   A text editor or IDE like Visual Studio or Rider.
 
--   Integrated Allure Reporting with screenshots on test failure.
+Setup Instructions
+------------------
 
--   CI/CD Integration via GitHub Actions, running tests on push/pull requests.
+1.  **Clone the Repository**:
 
--   Hosted Test Reports available at: https://markhughes321.github.io/dotnet-selenium-framework/10/.
-
--   Environment Variable Management for secure credential handling (via .env).
-
--   Makefile for simplified test execution and report generation.
-
-Folder Structure
-----------------
-```
-├── Makefile
-├── Readme.md
-├── SeleniumFramework.sln
-├── UITests
-│   ├── Drivers
-│   │   ├── DriverManager.cs
-│   │   └── WebDriverFactory.cs
-│   ├── Helpers
-│   │   ├── AllureSetup.cs
-│   │   ├── AssertHelper.cs
-│   │   ├── Constants.cs
-│   │   ├── TestConfig.cs
-│   │   └── WaitHelper.cs
-│   ├── Locators
-│   │   ├── HomePageLocators.cs
-│   │   └── LoginPageLocators.cs
-│   ├── Pages
-│   │   ├── HomePage.cs
-│   │   ├── LoginPage.cs
-│   │   └── PageFactory.cs
-│   ├── Properties
-│   │   └── AssemblyInfo.cs
-│   ├── Tests
-│   │   ├── Authentication
-│   │   │   └── LoginTests.cs
-│   │   ├── Base
-│   │   │   └── BaseTest.cs
-│   │   └── Booking
-│   │       └── FlightSearchTests.cs
-│   ├── UITests.csproj
-│   └── allureConfig.json
-```
-
-Getting Started
----------------
-
-1.  **Clone the repository**\
-    `git clone https://github.com/markhughes321/dotnet-selenium-framework.git`
-
-2.  **Install .NET 6 SDK**\
-    Download from: <https://dotnet.microsoft.com/en-us/download/dotnet/6.0>
-
-3.  **Install Allure commandline (optional for local reporting)**\
-    ```    
-    npm install -g allure-commandline --save-dev
+    ```
+    git clone <repository-url>
+    cd <repository-folder>
     ```
 
-4.  **Configure environment variables**\
-    Create a `.env` file in the root:
-    ```
-    RYANAIR_EMAIL=your_email@mail.com
-    RYANAIR_PASSWORD=your_password
-    ```
+2.  **Restore Dependencies**: Run the following command to install required packages:
 
-5.  **Run the tests locally**
     ```
-    dotnet build
-    dotnet test
+    dotnet restore UITests/UITests.csproj
     ```
 
-6.  **View Allure reports (Run from the root directory)**
-    ```
-    allure serve ./UITests/bin/Debug/net6.0/allure-results
-    ```
+3.  **Configure Environment Variables**: Create a .env file in the UITests/ folder (or use the provided example) with:
 
-
-7.  **Run using NUnit categories**
     ```
-    dotnet test --filter "Category=Smoke"
+    RYANAIR_EMAIL=your-email@example.com
+    RYANAIR_PASSWORD=your-password
     ```
 
-CI/CD
------
+    Replace with valid Ryanair credentials for testing.
 
-Tests are executed automatically on every push and pull request to the main branch via GitHub Actions. The pipeline:
+4.  **Build the Project**:
 
--   Restores dependencies and builds the project.
+    ```
+    dotnet build UITests/UITests.csproj
+    ```
 
--   Runs tests with credentials from GitHub Secrets.
+Running Tests
+-------------
 
--   Generates and publishes Allure reports to GitHub Pages.
+The framework includes commands to run tests and generate reports. Use the Makefile for simplicity:
 
+-   **Run All Tests**:
 
-Author
-------
+    ```
+    make test
+    ```
 
-Mark Hughes https://github.com/markhughes321
+-   **Run Smoke Tests** (quick, critical tests):
+
+    ```
+    make test-smoke
+    ```
+
+-   **Run Regression Tests** (comprehensive tests):
+
+    ```
+    make test-regression
+    ```
+
+-   **View Allure Report**: After running tests, generate and view the report:
+
+    ```
+    make report
+    ```
+
+    This opens a browser with detailed test results, including steps and screenshots for failures.
+
+Adding a New Test
+-----------------
+
+To add a new test, follow these steps to keep the framework consistent and maintainable.
+
+1.  **Create a New Test Class**:
+
+    -   Navigate to UITests/Tests/.
+
+    -   Create a new folder if testing a new feature (e.g., Booking/ for booking-related tests).
+
+    -   Add a new test class, e.g., NewFeatureTests.cs, inheriting from BaseTest.
+
+    Example:
+
+    ```
+    using NUnit.Framework;
+    using Allure.NUnit;
+    using Allure.NUnit.Attributes;
+    using Allure.Net.Commons;
+    using UITests.Pages;
+    using UITests.Helpers;
+
+    namespace UITests.Tests
+    {
+        [TestFixture]
+        [AllureNUnit]
+        [AllureSuite("New Feature")]
+        [AllureFeature("New Feature Testing")]
+        [AllureOwner("Your Name")]
+        public class NewFeatureTests : BaseTest
+        {
+            [Test]
+            [AllureDescription("Validates the new feature works as expected.")]
+            public void Test_NewFeature()
+            {
+                var homePage = PageFactory.HomePage;
+                AllureApi.Step("Perform action on homepage", () => homePage.SomeAction());
+                AssertHelper.StepAssert(() => homePage.IsActionSuccessful(), "Action should succeed");
+            }
+        }
+    }
+    ```
+
+2.  **Update or Create Page Objects**:
+
+    -   If the test interacts with a new page, create a new class in UITests/Pages/ (e.g., NewPage.cs).
+
+    -   Add methods for user actions and element interactions.
+
+    -   Update PageFactory.cs to include the new page:
+
+        ```
+        public static NewPage NewPage => new(DriverManager.Driver);
+        ```
+
+3.  **Define Locators**:
+
+    -   Create or update a locators class in UITests/Locators/ (e.g., NewPageLocators.cs).
+
+    -   Add element locators using By selectors:
+
+        ```
+        public static class NewPageLocators
+        {
+            public static readonly By SomeElement = By.CssSelector("[data-ref='some-element']");
+        }
+        ```
+
+4.  **Run the Test**:
+
+    -   Use make test to run all tests, including the new one.
+
+    -   Verify the test appears in the Allure report.
+
+Key Design Choices
+------------------
+
+-   **Page Object Model**: Separates page interactions from test logic, making tests easier to read and maintain.
+
+-   **Thread-Safe WebDriver**: Uses ThreadLocal to support parallel test execution without conflicts.
+
+-   **Allure Reporting**: Provides detailed, step-by-step reports with screenshots for debugging.
+
+-   **Environment Variables**: Keeps sensitive data secure and configurable.
+
+-   **Modular Helpers**: Simplifies common tasks like waiting or asserting, reducing code duplication.
+
+-   **CI Workflow**: Automates testing and reporting via GitHub Actions for consistent results.
