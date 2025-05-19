@@ -1,0 +1,4 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Mon May 19 12:26:12 GMT 2025","Mon May 19 12:26:32 GMT 2025","19108","","Login","Regression","LoginTests","Login_Successfully","Login_Successfully","Validates that a user can successfully log into the Ryanair website using valid credentials."
+"passed","Mon May 19 12:26:12 GMT 2025","Mon May 19 12:26:31 GMT 2025","18619","","Login","Regression","LoginTests","Login_InvalidCredentials","Login_InvalidCredentials","Validates that a user receives an error message when attempting to log in with invalid credentials."
+"passed","Mon May 19 12:26:12 GMT 2025","Mon May 19 12:26:32 GMT 2025","19504","","Flight Search","Regression","FlightSearchTests","Search_OneWayTrip_ToAnyDestination","Search_OneWayTrip_ToAnyDestination","Validate that a user can search for a one-way trip with flexible dates and reach the fare-finder results page."
